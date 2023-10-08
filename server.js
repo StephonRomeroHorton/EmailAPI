@@ -9,7 +9,7 @@ app.use(cors());
 
 
 
-
+/*
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -47,6 +47,41 @@ app.listen(process.env.PORT || PORT, () => {
 });
 
 
+*/
+
+app.use(cors());
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'beautyboss48235@gmail.com',
+    pass: 'xjgmyoqyrismupnm',
+  },
+});
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Define an endpoint to send emails
+app.post('/email', async (req, res) => {
+  const mailOptions = {
+    from: 'beautyboss48235@gmail.com',
+    to: 'hortonstephon12@gmail.com',
+    subject: 'Yous a bitch',
+    text: 'This is a test email sent from Nodemailer!',
+  };
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully: ', info.response);
+    res.json({ message: 'Email sent successfully' });
+  } catch (error) {
+    console.error('Error sending email: ', error);
+    res.status(500).json({ error: 'Error sending email' });
+  }
+});
+
+app.listen(process.env.PORT || PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 
 
