@@ -49,7 +49,7 @@ app.listen(process.env.PORT || PORT, () => {
 
 */
 
-app.use(cors());
+
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
