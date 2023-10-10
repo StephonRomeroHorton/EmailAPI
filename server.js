@@ -6,7 +6,7 @@ const bodyParser = require('body-parser'); // Import the body-parser module
 const cors = require('cors');
 
 app.use(cors());
-
+app.use(bodyParser.urlencoded({ extended: false }));
 
 
 
@@ -17,15 +17,26 @@ const transporter = nodemailer.createTransport({
     pass: 'xjgmyoqyrismupnm',
   },
 });
-app.use(bodyParser.urlencoded({ extended: false }));
+
 
 // Define an endpoint to send emails
 app.post('/email', (req, res) => {
+  const requestData = req.body;
+  console.log('Request Data:', requestData);
+  
+  const name = req.body.name;
+  const email = req.body.email;
+  const phone = req.body.phone;
+
+  // Process the data or send a response
+  console.log(`Received data: Name - ${name}, Email - ${email}, Phone - ${phone}`);
+  
+
   const mailOptions = {
     from: 'beautyboss48235@gmail.com',
-    to: 'hortonstephon12@gmail.com',
+    to: `${email}`,
     subject: 'Yous a bitch',
-    text: 'This is a test email sent from Nodemailer!',
+    text: `you have an appointment with ${name} on July , call ${phone}`,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
