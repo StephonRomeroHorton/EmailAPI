@@ -7,6 +7,7 @@ const cors = require('cors');
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
 
 
 
@@ -21,12 +22,16 @@ const transporter = nodemailer.createTransport({
 
 // Define an endpoint to send emails
 app.post('/email', (req, res) => {
-  const requestData = req.body;
-  console.log('Request Data:', requestData);
+
+
   
-  const name = req.body.name;
-  const email = req.body.email;
-  const phone = req.body.phone;
+  let name = req.body.name;
+  let email = req.body.email;
+  let phone = req.body.phone;
+  let month = req.body.month;
+  let day = req.body.day;
+  let year = req.body.year;
+  let time = req.body.time;
 
   // Process the data or send a response
   console.log(`Received data: Name - ${name}, Email - ${email}, Phone - ${phone}`);
@@ -36,13 +41,13 @@ app.post('/email', (req, res) => {
     from: 'beautyboss48235@gmail.com',
     to: `${email}`,
     subject: 'Yous a bitch',
-    text: `you have an appointment with ${name} on July , call ${phone}`,
+    text: `you have an appointment with ${name} on ${month} ${day}, ${year} at ${time} call ${phone} or email ${email} to contact client`,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error('Error sending email: ', error);
-      res.json({ error: 'Error sending email' });
+      res.json({ message: 'Error sending email' });
      
     } else {
       console.log('Email sent successfully: ', info.response);
