@@ -37,21 +37,37 @@ app.post('/email', (req, res) => {
   console.log(`Received data: Name - ${name}, Email - ${email}, Phone - ${phone}`);
   
 
-  const mailOptions = {
+  const mailOptions1 = {
     from: 'beautyboss48235@gmail.com',
     to: `${email}`,
-    subject: 'Yous a bitch',
+    subject: 'Appointment with the Beauty Boss',
+    text: `Thank you for booking with the Beauty Boss. Your appointment is on ${month} ${day}, ${year} at ${time} for any questions contact your stylist at 313-444-4444`,
+  };
+
+
+  const mailOptions2 = {
+    from: 'beautyboss48235@gmail.com',
+    to: 'hortonstephon12@gmail.com',
+    subject: 'New Appointment Booked',
     text: `you have an appointment with ${name} on ${month} ${day}, ${year} at ${time} call ${phone} or email ${email} to contact client`,
   };
 
-  transporter.sendMail(mailOptions, (error, info) => {
+  transporter.sendMail(mailOptions1, (error, info) => {
     if (error) {
-      console.error('Error sending email: ', error);
+      console.error('Error sending email to client: ', error);
       res.json({ message: 'Error sending email' });
      
     } else {
-      console.log('Email sent successfully: ', info.response);
+      console.log('Email sent to client successfully: ', info.response);
       res.json({ message: 'Email sent successfully' });
+    }
+  });
+
+  transporter.sendMail(mailOptions2, (error, info) => {
+    if (error) {
+      console.error('Error sending email to stylist: ', error);
+    } else {
+      console.log('Email sent to stylist successfully: ', info.response);
     }
   });
 });
