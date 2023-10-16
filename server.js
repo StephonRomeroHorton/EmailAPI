@@ -18,7 +18,7 @@ const transporter = nodemailer.createTransport({
     pass: 'xjgmyoqyrismupnm',
   },
 });
-
+/*
 
 // Define an endpoint to send emails
 app.post('/email', (req, res) => {
@@ -75,6 +75,60 @@ app.post('/email', (req, res) => {
     }
   });
 });
+
+
+*/
+
+app.post('/email', async (req, res) => {
+  // ... (previous code)
+
+  let name = req.body.name;
+  let email = req.body.email;
+  let phone = req.body.phone;
+  let month = req.body.month;
+  let day = req.body.day;
+  let year = req.body.year;
+  let time = req.body.time;
+  let style = req.body.style;
+  let price = req.body.price;
+
+  // Process the data or send a response
+  console.log(`Received data: Name - ${name}, Email - ${email}, Phone - ${phone}`);
+  
+
+  const mailOptions1 = {
+    from: 'beautyboss48235@gmail.com',
+    to: `${email}`,
+    subject: 'Appointment with the Beauty Boss',
+    text: `Thank you for booking with The Beauty Boss. Your appointment for a ${style} ${price} is on ${month} ${day}, ${year} at ${time}. Your stylist will contact you soon with details, for any questions contact your stylist at 313-444-4444`,
+  };
+
+
+
+  try {
+    const info1 = await transporter.sendMail(mailOptions1);
+    console.log('Email sent to client successfully: ', info1.response);
+
+    const mailOptions2 = {
+      // ... (second email configuration)
+      
+        from: 'beautyboss48235@gmail.com',
+        to: 'hortonstephon12@gmail.com',
+        subject: 'New Appointment Booked',
+        text: ` You have a booking request for a ${style} ${price} with ${name} on ${month} ${day}, ${year} at ${time} call ${phone} or email ${email} to contact client`,
+      
+    };
+
+    const info2 = await transporter.sendMail(mailOptions2);
+    console.log('Email sent to stylist successfully: ', info2.response);
+  } catch (error) {
+    console.error('Error sending email: ', error);
+    res.json({ message: 'Error sending email' });
+  }
+
+  res.json({ message: 'Booking Successful! Check email for appointment details' });
+});
+
 
 
 app.listen(process.env.PORT || PORT, () => {
